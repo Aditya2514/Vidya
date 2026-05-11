@@ -1,97 +1,67 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# BookFinder 📚
 
-# Getting Started
+A production-ready React Native (CLI) application built to discover, search, and save books using the Google Books API. The app demonstrates advanced architecture, strict TypeScript usage, robust state management, and an emphasis on performance and clean UX without relying on third-party UI libraries.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 App Functionality
 
-## Step 1: Start Metro
+- **Secure Authentication:** Firebase Email/Password & Native Google Sign-In support.
+- **Discover & Search:** Search millions of books via the Google Books API. The search bar includes a 500ms debounce to prevent API spam and optimize performance.
+- **Infinite Scrolling:** FlatList implementation with `onEndReached` pagination to continually fetch the next 20 books dynamically.
+- **Save for Later:** Users can save their favorite books to a local library.
+- **Persistent State:** Uses `redux-persist` and `AsyncStorage` to ensure that saved books, user preferences, and onboarding states survive app restarts and device reboots.
+- **Global Theme Support:** Fully custom light and dark mode implementation managed globally via Redux, automatically reflecting throughout the UI.
+- **Native Polish:** Custom Bootsplash launch screen and generated mipmap application icons for a true native feel.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🚀 How to Run the Project
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Prerequisites
+- Node.js (v22+)
+- React Native CLI environment setup (Android Studio / Xcode)
+- Ruby & CocoaPods (for iOS)
 
-```sh
-# Using npm
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/BookFinder.git
+   cd BookFinder
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. *(iOS Only)* Install CocoaPods:
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+
+### Running the App
+Start the Metro Bundler:
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+Launch the Android/iOS application:
+```bash
+# For Android
+npx react-native run-android
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+# For iOS
+npx react-native run-ios
 ```
 
-### iOS
+## 🧠 Key Technical Decisions
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+1. **No Third-Party UI Libraries:** To demonstrate deep understanding of the core React Native ecosystem, the entire user interface was constructed using bare standard components (`View`, `Text`, `FlatList`, `TextInput`, `StyleSheet`). No UI Kitten, NativeBase, or external vector icons were used.
+2. **Redux Toolkit + Redux Persist:** Chosen for scalable state management. The store is modularized into slices (`auth`, `books`, `savedBooks`, `theme`). `redux-persist` was critical for achieving the requirement of restoring content after a complete app kill.
+3. **FlatList Performance Optimization:** The Discover screen implements `initialNumToRender`, `windowSize`, and `removeClippedSubviews` to guarantee a consistent 60fps scrolling experience even when the Redux store holds hundreds of fetched API objects. 
+4. **Memoization:** Extensive use of `useCallback` (for `renderItem` and `keyExtractor`) and `useMemo` (for the dynamic Theme hooks) prevents unnecessary re-renders of list items and heavy UI components.
+5. **Decoupled API Layer:** The Google Books API token and fetch logic are isolated in a dedicated `api/` directory, rather than bleeding into the Redux Thunks. This ensures the architecture is cleanly separated.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## 💡 Improvements with More Time
 
-```sh
-bundle install
-```
+Given additional time, I would implement the following features:
 
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1. **Firestore Cloud Sync:** Currently, "Saved Books" are persisted purely locally via `AsyncStorage`. I would integrate Cloud Firestore to sync the user's library across multiple devices using their Firebase Auth UID.
+2. **Comprehensive Testing:** Add unit testing for the Redux reducers and thunks using `Jest`, and component snapshot testing via `@testing-library/react-native`.
+3. **Advanced Offline Support:** Implement `NetInfo` to detect when the device loses network connectivity, seamlessly switching the app into an "Offline Mode" that allows users to read the descriptions of their locally cached saved books without crashing or showing endless loading spinners.
+4. **Shared Element Transitions:** Use `react-native-reanimated` to create fluid 60fps image transitions when a user clicks a book thumbnail in the Discover feed and navigates into the Detail screen.

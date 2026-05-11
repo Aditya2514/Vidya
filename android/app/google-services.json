@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "580959714917",
+    "project_id": "vidya-85ae0",
+    "storage_bucket": "vidya-85ae0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580959714917:android:012d419b2b823c9cde508c",
+        "android_client_info": {
+          "package_name": "com.bookfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_muwcqTGlI6nBIlzR4cUVfJwqd0VSMM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
