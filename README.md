@@ -49,6 +49,14 @@ npx react-native run-android
 npx react-native run-ios
 ```
 
+### 📦 Installing via APK (Android)
+If you don't want to set up the React Native development environment, you can install the pre-compiled `.apk` file directly:
+1. Download the `app-release.apk` file from the repository releases or deployment link.
+2. Transfer the `.apk` file to your Android device (via USB, Google Drive, or Email).
+3. On your Android device, open a File Manager and tap the `.apk` file to install it.
+   - *Note: You may need to enable "Install Unknown Apps" in your Android settings.*
+4. Launch the **BookFinder** app from your home screen!
+
 ## 🧠 Key Technical Decisions
 
 1. **No Third-Party UI Libraries:** To demonstrate deep understanding of the core React Native ecosystem, the entire user interface was constructed using bare standard components (`View`, `Text`, `FlatList`, `TextInput`, `StyleSheet`). No UI Kitten, NativeBase, or external vector icons were used.
