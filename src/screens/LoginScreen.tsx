@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from '@react-native-firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, updateProfile } from '@react-native-firebase/auth';
 import { useDispatch } from 'react-redux';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { setUser } from '../store/slices/authSlice';
@@ -41,7 +41,7 @@ const LoginScreen: React.FC = () => {
           return;
         }
         const userCredential = await createUserWithEmailAndPassword(authInstance, email, password);
-        await userCredential.user.updateProfile({
+        await updateProfile(userCredential.user, {
           displayName: name,
         });
         
