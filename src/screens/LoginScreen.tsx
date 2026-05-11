@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from '@react-native-firebase/auth';
 import { useDispatch } from 'react-redux';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { setUser } from '../store/slices/authSlice';
@@ -29,16 +30,17 @@ const LoginScreen: React.FC = () => {
     }
 
     setLoading(true);
+    const authInstance = getAuth();
     try {
       if (isLogin) {
-        await auth().signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(authInstance, email, password);
       } else {
         if (!name) {
           Alert.alert('Error', 'Please enter your full name.');
           setLoading(false);
           return;
         }
-        const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(authInstance, email, password);
         await userCredential.user.updateProfile({
           displayName: name,
         });
@@ -67,8 +69,9 @@ const LoginScreen: React.FC = () => {
         throw new Error('No ID token found');
       }
       
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const userCredential = await auth().signInWithCredential(googleCredential);
+      const authInstance = getAuth();
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      const userCredential = await signInWithCredential(authInstance, googleCredential);
       
       dispatch(setUser({
         uid: userCredential.user.uid,

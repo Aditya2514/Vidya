@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, useDispatch } from 'react-redux';
-import auth from '@react-native-firebase/auth';
+import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import BootSplash from 'react-native-bootsplash';
 
 import { RootState } from '../store';
@@ -87,7 +87,8 @@ const AppNavigator: React.FC = () => {
   const { user, isLoading } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged((firebaseUser) => {
+    const authInstance = getAuth();
+    const subscriber = onAuthStateChanged(authInstance, (firebaseUser) => {
       if (firebaseUser) {
         dispatch(setUser({ 
           uid: firebaseUser.uid, 
