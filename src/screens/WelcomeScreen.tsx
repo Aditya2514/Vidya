@@ -28,7 +28,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image 
-          source={require('../assets/images/onboarding_hero.png')} 
+          source={require('../assets/images/onboarding_hero.jpg')} 
           style={styles.heroImage}
           resizeMode="cover"
         />
