@@ -90,13 +90,21 @@ const BookDetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
       <View style={styles.bottomBar}>
         <TouchableOpacity 
-          style={styles.primaryButton}
+          style={[styles.primaryButton, styles.secondaryButton]}
           onPress={handleToggleSavedForLater}
           activeOpacity={0.8}
         >
-          <Text style={styles.primaryButtonText}>
-            {isSavedForLater ? '✓ Saved for Later' : 'Save for Later'}
+          <Text style={[styles.primaryButtonText, styles.secondaryButtonText]}>
+            {isSavedForLater ? '✓ Saved' : 'Save'}
           </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.primaryButton, { flex: 1.5, marginLeft: 12 }]}
+          onPress={() => navigation.navigate('BookReader', { bookId: book.id, title: book.title })}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.primaryButtonText}>Read Preview</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -197,7 +205,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: colors.background,
     borderTopWidth: 1,
-    borderTopColor: colors.borderSubtle, 
+    borderTopColor: colors.borderSubtle,
+    flexDirection: 'row',
   },
   primaryButton: {
     backgroundColor: colors.accent,
@@ -210,11 +219,22 @@ const getStyles = (colors: any) => StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 4,
   },
+  secondaryButton: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: colors.accent,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
   primaryButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
     letterSpacing: 0.5,
+  },
+  secondaryButtonText: {
+    color: colors.accent,
   },
 });
 

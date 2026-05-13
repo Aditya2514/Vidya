@@ -15,6 +15,7 @@ import SavedBooksScreen from '../screens/SavedBooksScreen';
 import BookDetailScreen from '../screens/BookDetailScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import BookReaderScreen from '../screens/BookReaderScreen';
 
 import { Book } from '../types/book';
 import { useThemeColors } from '../styles/theme';
@@ -25,6 +26,10 @@ export type RootStackParamList = {
   MainTabs: undefined;
   BookDetail: {
     book: Book;
+  };
+  BookReader: {
+    bookId: string;
+    title: string;
   };
 };
 
@@ -122,6 +127,7 @@ const AppNavigator: React.FC = () => {
             )}
             <Stack.Screen name="MainTabs" component={MainTabNavigator} />
             <Stack.Screen name="BookDetail" component={BookDetailScreen} />
+            <Stack.Screen name="BookReader" component={BookReaderScreen} options={{ presentation: 'modal' }} />
           </>
         )}
       </Stack.Navigator>
