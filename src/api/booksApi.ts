@@ -5,10 +5,10 @@ export const fetchBooksFromApi = async (
   startIndex: number,
   maxResults: number
 ): Promise<{ items: Book[]; totalItems: number }> => {
-  const apiKey = 'AIzaSyAqa6VPMIowDUECU8gUGN0UJ9iMYCCF73M';
+  // Volume search works without an API key (per-IP quota), so no key ships in the app bundle
   const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
     query
-  )}&startIndex=${startIndex}&maxResults=${maxResults}&key=${apiKey}`;
+  )}&startIndex=${startIndex}&maxResults=${maxResults}`;
 
   const response = await fetch(url);
   
